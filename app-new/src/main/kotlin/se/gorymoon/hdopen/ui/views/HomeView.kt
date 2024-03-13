@@ -1,8 +1,5 @@
-package se.gorymoon.hdopen
+package se.gorymoon.hdopen.ui.views
 
-import android.os.Bundle
-import androidx.activity.ComponentActivity
-import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,29 +9,19 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
-import androidx.compose.material3.TopAppBarDefaults.exitUntilCollapsedScrollBehavior
-import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.dp
+import se.gorymoon.hdopen.R
+import se.gorymoon.hdopen.ui.composables.DoorDisplay
+import se.gorymoon.hdopen.ui.models.DoorState
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
-import se.gorymoon.hdopen.ui.theme.Purple80
-
-class MainActivity : ComponentActivity() {
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContent {
-            HDOpenScreen()
-        }
-    }
-}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HDOpenScreen() {
+fun HomeView() {
     HDOpenTheme {
         Scaffold(
             topBar = {
@@ -42,7 +29,7 @@ private fun HDOpenScreen() {
                     title = { Text(
                         text = "HDOpen"
                     ) },
-                    colors = topAppBarColors(
+                    colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primary,
                         titleContentColor = MaterialTheme.colorScheme.onPrimary,
                         actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
@@ -65,7 +52,7 @@ private fun HDOpenScreen() {
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {/* TODO Add action*/},
+                    onClick = {/* TODO Add action*/ DoorState.cycleState()},
                     containerColor = MaterialTheme.colorScheme.primary,
                     contentColor = MaterialTheme.colorScheme.onPrimary
                 ) {
@@ -73,31 +60,13 @@ private fun HDOpenScreen() {
                 }
             }
         ) {
-            // A surface container using the 'background' color from the theme
-            Surface(color = MaterialTheme.colorScheme.tertiaryContainer, modifier = Modifier.fillMaxSize()) {
-                Column(
-                    modifier = Modifier.fillMaxSize().padding(it),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    Text("Open")
-                    Text("For a while")
-                }
-            }
+            DoorDisplay(it)
         }
     }
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun ScreenPreview() {
-    HDOpenScreen()
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
+private fun HomePreview() {
+    HomeView()
 }
