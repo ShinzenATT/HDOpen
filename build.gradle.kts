@@ -7,4 +7,5 @@ plugins {
     id("com.github.ben-manes.versions") version "0.42.0" apply false
     id("com.mikepenz.aboutlibraries.plugin") version "8.9.4" apply false
     id("org.jetbrains.kotlin.android") version "1.9.22" apply false
+    kotlin("plugin.serialization") version "1.9.22" apply  false
 }
