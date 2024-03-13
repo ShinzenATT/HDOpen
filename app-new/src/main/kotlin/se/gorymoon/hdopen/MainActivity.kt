@@ -40,19 +40,22 @@ private fun HDOpenScreen() {
             topBar = {
                 TopAppBar(
                     title = { Text(
-                        text = "HDOpen",
-                        color = MaterialTheme.colorScheme.onPrimaryContainer
+                        text = "HDOpen"
                     ) },
                     colors = topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
+                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
                     ),
                     actions = {
                         IconButton(
-                            onClick = { /*TODO open settings*/ },
-                            colors = IconButtonDefaults.iconButtonColors(contentColor = MaterialTheme.colorScheme.onPrimaryContainer)
-                        ) {
-                            Icon(imageVector = Icons.Default.Settings, contentDescription = "Settings")
+                            onClick = { /*TODO open settings*/ }
+                        ){
+                            Icon(
+                                imageVector = Icons.Default.Settings,
+                                contentDescription = "Settings"
+                            )
                         }
                     }
                 )
@@ -61,7 +64,11 @@ private fun HDOpenScreen() {
                 Image(painter = painterResource(R.drawable.dumheter_iin), contentDescription = "Ad")
             },
             floatingActionButton = {
-                FloatingActionButton(onClick = {/* TODO Add action*/}) {
+                FloatingActionButton(
+                    onClick = {/* TODO Add action*/},
+                    containerColor = MaterialTheme.colorScheme.primary,
+                    contentColor = MaterialTheme.colorScheme.onPrimary
+                ) {
                     Icon(Icons.Filled.Refresh, "Refresh")
                 }
             }
