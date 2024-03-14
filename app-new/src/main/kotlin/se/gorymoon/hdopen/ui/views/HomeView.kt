@@ -25,6 +25,7 @@ import androidx.core.widget.ContentLoadingProgressBar
 import coil.compose.AsyncImage
 import se.gorymoon.hdopen.R
 import se.gorymoon.hdopen.dto.DoorStatus
+import se.gorymoon.hdopen.ui.composables.AdBar
 import se.gorymoon.hdopen.ui.composables.AppBar
 import se.gorymoon.hdopen.ui.composables.DoorDisplay
 import se.gorymoon.hdopen.ui.models.AdState
@@ -35,7 +36,6 @@ import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
 @Composable
 fun HomeView(window: Window? = null) {
     val  state by  remember { DoorState }
-    val ad by remember { AdState }
     val (status) = state
 
     HDOpenTheme{
@@ -47,11 +47,7 @@ fun HomeView(window: Window? = null) {
                     window
                 )
             },
-            bottomBar = {
-                if(ad != null) {
-                    AsyncImage(model = ad!!.image, contentDescription = "Ad for ${ad!!.link}")
-                }
-            },
+            bottomBar ={ AdBar() },
             floatingActionButton = {
                 FloatingActionButton(
                     onClick = { refreshDoorState() },
