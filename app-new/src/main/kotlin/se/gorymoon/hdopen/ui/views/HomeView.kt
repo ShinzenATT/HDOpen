@@ -1,5 +1,10 @@
 package se.gorymoon.hdopen.ui.views
 
+import android.view.Window
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Easing
+import androidx.compose.animation.core.LinearEasing
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -10,41 +15,33 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.widget.ContentLoadingProgressBar
 import se.gorymoon.hdopen.R
+import se.gorymoon.hdopen.dto.DoorStatus
+import se.gorymoon.hdopen.ui.composables.AppBar
 import se.gorymoon.hdopen.ui.composables.DoorDisplay
 import se.gorymoon.hdopen.ui.models.DoorState
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
+import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeView() {
-    HDOpenTheme {
+fun HomeView(window: Window? = null) {
+    val  state by  remember { DoorState }
+    val (status) = state
+
+    HDOpenTheme{
         Scaffold(
             topBar = {
-                TopAppBar(
-                    title = { Text(
-                        text = "HDOpen"
-                    ) },
-                    colors = TopAppBarDefaults.topAppBarColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        titleContentColor = MaterialTheme.colorScheme.onPrimary,
-                        actionIconContentColor = MaterialTheme.colorScheme.onPrimary,
-                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimary
-                    ),
-                    actions = {
-                        IconButton(
-                            onClick = { /*TODO open settings*/ }
-                        ){
-                            Icon(
-                                imageVector = Icons.Default.Settings,
-                                contentDescription = "Settings"
-                            )
-                        }
-                    }
+                AppBar(
+                    status.accentedContainerColor(),
+                    status.accentedTextColor(),
+                    window
                 )
             },
             bottomBar = {
@@ -52,11 +49,17 @@ fun HomeView() {
             },
             floatingActionButton = {
                 FloatingActionButton(
-                    onClick = {/* TODO Add action*/ DoorState.cycleState()},
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    contentColor = MaterialTheme.colorScheme.onPrimary
+                    onClick = { refreshDoorState() },
+                    containerColor = status.accentedContainerColor(),
+                    contentColor = status.accentedTextColor()
                 ) {
-                    Icon(Icons.Filled.Refresh, "Refresh")
+                    if(status == DoorStatus.LOADING) {
+                        CircularProgressIndicator(
+                            color = status.accentedTextColor()
+                        )
+                    } else {
+                        Icon(Icons.Filled.Refresh, "Refresh")
+                    }
                 }
             }
         ) {

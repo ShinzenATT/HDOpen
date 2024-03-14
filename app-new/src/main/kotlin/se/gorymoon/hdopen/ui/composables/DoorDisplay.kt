@@ -1,6 +1,7 @@
 package se.gorymoon.hdopen.ui.composables
 
 import android.annotation.SuppressLint
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -8,24 +9,47 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.TextUnit
+import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.em
+import se.gorymoon.hdopen.dto.DoorData
 import se.gorymoon.hdopen.dto.DoorStatus
 import se.gorymoon.hdopen.ui.models.DoorState
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
+import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
+import se.gorymoon.hdopen.utils.asData
+import kotlin.time.DurationUnit
+import kotlin.time.toDuration
 
 @Composable
-fun DoorDisplay(padding: PaddingValues, stateParam: MutableState<DoorStatus> = DoorState){
-    val (state, setState) = remember { stateParam }
+fun DoorDisplay(padding: PaddingValues, stateParam: MutableState<DoorData> = DoorState){
+    val state by remember { stateParam }
+    val (status, duration) = state
     // A surface container using the 'background' color from the theme
-    Surface(color = state.containerColor(), modifier = Modifier.fillMaxSize()) {
+    Surface(
+        color = status.containerColor(),
+        modifier = Modifier.fillMaxSize().clickable { refreshDoorState() }
+    ) {
         Column(
             modifier = Modifier.fillMaxSize().padding(padding),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(text = state.text, color = state.textColor())
-            Text("For a while")
+            Text(
+                text = status.text,
+                color = status.textColor(),
+                fontSize = 15.em,
+                fontWeight = FontWeight.Bold
+            )
+            if(duration != null){
+                Text(
+                    text = "$duration ago",
+                    fontSize = 5.em
+                )
+            }
         }
     }
 }
@@ -35,7 +59,10 @@ fun DoorDisplay(padding: PaddingValues, stateParam: MutableState<DoorStatus> = D
 @Preview
 private fun OpenPreview(){
     HDOpenTheme {
-        DoorDisplay(PaddingValues(0.dp), mutableStateOf(DoorStatus.OPEN))
+        DoorDisplay(
+            PaddingValues(0.dp),
+            mutableStateOf(DoorStatus.OPEN.asData(69.toDuration(DurationUnit.MINUTES)))
+        )
     }
 }
 
@@ -44,7 +71,10 @@ private fun OpenPreview(){
 @Preview
 private fun ClosedPreview(){
     HDOpenTheme {
-        DoorDisplay(PaddingValues(0.dp), mutableStateOf(DoorStatus.CLOSED))
+        DoorDisplay(
+            PaddingValues(0.dp),
+            mutableStateOf(DoorStatus.CLOSED.asData(69.toDuration(DurationUnit.MINUTES)))
+        )
     }
 }
 
@@ -53,7 +83,7 @@ private fun ClosedPreview(){
 @Preview
 private fun LoadingPreview(){
     HDOpenTheme {
-        DoorDisplay(PaddingValues(0.dp), mutableStateOf(DoorStatus.LOADING))
+        DoorDisplay(PaddingValues(0.dp), mutableStateOf(DoorStatus.LOADING.asData()))
     }
 }
 
@@ -61,7 +91,10 @@ private fun LoadingPreview(){
 @Composable
 @Preview
 private fun UnknownPreview(){
-    HDOpenTheme {
-        DoorDisplay(PaddingValues(0.dp), mutableStateOf(DoorStatus.UNKNOWN))
+    HDOpenTheme(dynamicColor = false) {
+        DoorDisplay(
+            PaddingValues(0.dp),
+            mutableStateOf(DoorStatus.UNKNOWN.asData(69.toDuration(DurationUnit.MINUTES))
+            ))
     }
 }

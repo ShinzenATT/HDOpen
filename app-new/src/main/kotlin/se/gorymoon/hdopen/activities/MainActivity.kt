@@ -1,6 +1,7 @@
 package se.gorymoon.hdopen.activities
 
 import android.os.Bundle
+import android.view.WindowManager
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
@@ -20,13 +21,17 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import se.gorymoon.hdopen.R
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
+import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
 import se.gorymoon.hdopen.ui.views.HomeView
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            HomeView()
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
+            HomeView(window)
+            refreshDoorState()
         }
     }
 }
