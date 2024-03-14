@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import se.gorymoon.hdopen.R
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
 import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
+import se.gorymoon.hdopen.ui.viewmodels.startAdRotation
 import se.gorymoon.hdopen.ui.views.HomeView
 
 class MainActivity : ComponentActivity() {
@@ -32,6 +33,7 @@ class MainActivity : ComponentActivity() {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
             HomeView(window)
             refreshDoorState()
+            startAdRotation()
         }
     }
 }
