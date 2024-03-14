@@ -8,9 +8,9 @@ fun launchTask(
     block: suspend CoroutineScope.() -> Unit
 ) = CoroutineScope(dispatcher).launch(block = block)
 
-fun runAsync(
+fun <T> runAsync(
     dispatcher: CoroutineContext = Dispatchers.IO,
-    block: suspend CoroutineScope.() -> Unit
+    block: suspend CoroutineScope.() -> T
 ) = CoroutineScope(dispatcher).async(block = block)
 
 fun <T> Deferred<T>.awaitSync() = runBlocking { this@awaitSync.await() }
