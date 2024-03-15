@@ -36,7 +36,7 @@ import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
 @Composable
 fun HomeView(window: Window? = null) {
     val  state by  remember { DoorState }
-    val (status) = state
+    val (status, _, isLoading) = state
 
     HDOpenTheme{
         Scaffold(
@@ -54,7 +54,7 @@ fun HomeView(window: Window? = null) {
                     containerColor = status.accentedContainerColor(),
                     contentColor = status.accentedTextColor()
                 ) {
-                    if(status == DoorStatus.LOADING) {
+                    if(isLoading) {
                         CircularProgressIndicator(
                             color = status.accentedTextColor()
                         )

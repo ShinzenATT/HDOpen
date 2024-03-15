@@ -3,6 +3,7 @@ package se.gorymoon.hdopen.ui.composables
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -27,7 +28,9 @@ import kotlin.time.toDuration
 @Composable
 fun DoorDisplay(padding: PaddingValues, stateParam: MutableState<DoorData> = DoorState){
     val state by remember { stateParam }
-    val (status, duration) = state
+    val (status, duration, isLoading) = state
+    val displayText = if(isLoading) "Loading..." else status.text
+
     // A surface container using the 'background' color from the theme
     Surface(
         color = status.containerColor(),
@@ -39,12 +42,14 @@ fun DoorDisplay(padding: PaddingValues, stateParam: MutableState<DoorData> = Doo
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = status.text,
+                text = displayText,
                 color = status.textColor(),
                 fontSize = 15.em,
                 fontWeight = FontWeight.Bold
             )
-            if(duration != null){
+            if (isLoading){
+                LinearProgressIndicator(color = status.textColor())
+            } else if(duration != null){
                 Text(
                     text = "$duration ago",
                     fontSize = 5.em
@@ -75,15 +80,6 @@ private fun ClosedPreview(){
             PaddingValues(0.dp),
             mutableStateOf(DoorStatus.CLOSED.asData(69.toDuration(DurationUnit.MINUTES)))
         )
-    }
-}
-
-@SuppressLint("UnrememberedMutableState")
-@Composable
-@Preview
-private fun LoadingPreview(){
-    HDOpenTheme {
-        DoorDisplay(PaddingValues(0.dp), mutableStateOf(DoorStatus.LOADING.asData()))
     }
 }
 
