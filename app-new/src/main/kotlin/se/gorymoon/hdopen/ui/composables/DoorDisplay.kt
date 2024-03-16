@@ -4,21 +4,17 @@ import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.LinearProgressIndicator
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.TextUnit
-import androidx.compose.ui.unit.TextUnitType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
 import se.gorymoon.hdopen.dto.DoorData
 import se.gorymoon.hdopen.dto.DoorStatus
-import se.gorymoon.hdopen.ui.models.DoorState
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
 import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
 import se.gorymoon.hdopen.utils.asData
@@ -49,10 +45,7 @@ fun DoorDisplay(padding: PaddingValues, state: DoorData){
             if (isLoading){
                 LinearProgressIndicator(color = status.textColor())
             } else if(duration != null){
-                Text(
-                    text = "$duration ago",
-                    fontSize = 5.em
-                )
+                DurationText(duration)
             }
         }
     }
@@ -65,7 +58,7 @@ private fun OpenPreview(){
     HDOpenTheme {
         DoorDisplay(
             PaddingValues(0.dp),
-            mutableStateOf(DoorStatus.OPEN.asData(69.toDuration(DurationUnit.MINUTES)))
+            DoorStatus.OPEN.asData(69.toDuration(DurationUnit.MINUTES))
         )
     }
 }
@@ -77,7 +70,7 @@ private fun ClosedPreview(){
     HDOpenTheme {
         DoorDisplay(
             PaddingValues(0.dp),
-            mutableStateOf(DoorStatus.CLOSED.asData(69.toDuration(DurationUnit.MINUTES)))
+            DoorStatus.CLOSED.asData(69.toDuration(DurationUnit.MINUTES))
         )
     }
 }
@@ -89,7 +82,7 @@ private fun UnknownPreview(){
     HDOpenTheme(dynamicColor = false) {
         DoorDisplay(
             PaddingValues(0.dp),
-            mutableStateOf(DoorStatus.UNKNOWN.asData(69.toDuration(DurationUnit.MINUTES))
-            ))
+            DoorStatus.UNKNOWN.asData(69.toDuration(DurationUnit.MINUTES))
+        )
     }
 }
