@@ -6,5 +6,5 @@ import kotlinx.coroutines.Job
 import se.gorymoon.hdopen.dto.network.AdResponse
 
 object AdState: MutableState<AdResponse?> by mutableStateOf(null){
-    lateinit var cycleJob: Job
+    var cycleJob: Job? = null
 }

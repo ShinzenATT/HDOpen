@@ -79,7 +79,7 @@ private fun ClosedPreview(){
 @Composable
 @Preview
 private fun UnknownPreview(){
-    HDOpenTheme(dynamicColor = false) {
+    HDOpenTheme {
         DoorDisplay(
             PaddingValues(0.dp),
             DoorStatus.UNKNOWN.asData(69.toDuration(DurationUnit.MINUTES))

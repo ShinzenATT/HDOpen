@@ -1,29 +1,24 @@
 package se.gorymoon.hdopen.ui.composables
 
-import android.view.Window
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Download
 import androidx.compose.material.icons.filled.Event
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.IntOffset
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
+import se.gorymoon.hdopen.navigation.navigateSettings
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(containerColor: Color, textColor: Color, window: Window? = null){
-    if(window != null)
-        window.statusBarColor = containerColor.toArgb()
-
+fun AppBar(containerColor: Color, textColor: Color, nav: NavController, ){
     TopAppBar(
         title = { Text(
             text = "HDOpen"
@@ -62,7 +57,7 @@ fun AppBar(containerColor: Color, textColor: Color, window: Window? = null){
             }
 
             IconButton(
-                onClick = { /*TODO open settings*/ }
+                onClick = { nav.navigateSettings() }
             ){
                 Icon(
                     imageVector = Icons.Default.Settings,
@@ -79,7 +74,8 @@ private fun AppBarPreview(){
     HDOpenTheme {
         AppBar(
             MaterialTheme.colorScheme.primary,
-            MaterialTheme.colorScheme.onPrimary
+            MaterialTheme.colorScheme.onPrimary,
+            rememberNavController()
         )
     }
 }
