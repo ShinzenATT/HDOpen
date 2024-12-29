@@ -11,8 +11,9 @@ data class DoorResponse(
     val status: Boolean?,
     val updated: String,
     val duration: Long,
-    val duration_str: String
+    val duration_str: String,
+    val timestamp: Long
 ) {
     val durationTime get() = duration.toDuration(DurationUnit.SECONDS)
-    val timestamp = Instant.fromEpochSeconds(Clock.System.now().epochSeconds - duration)
+    val instant = Instant.fromEpochSeconds(timestamp)
 }
