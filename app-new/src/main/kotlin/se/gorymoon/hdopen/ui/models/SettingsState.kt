@@ -6,5 +6,4 @@ import se.gorymoon.hdopen.dto.UserSettings
 
 object SettingsState: MutableState<UserSettings> by mutableStateOf(UserSettings()) {
     val useDeviceTheme get() =  value.useDeviceTheme
-    val apiToken get() = value.apiToken
 }

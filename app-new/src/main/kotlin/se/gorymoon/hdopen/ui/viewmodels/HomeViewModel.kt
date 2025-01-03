@@ -6,9 +6,15 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import se.gorymoon.hdopen.dto.DoorData
 import se.gorymoon.hdopen.services.doAdRequest
+import se.gorymoon.hdopen.services.getChassitData
 import se.gorymoon.hdopen.services.getDoorData
 import se.gorymoon.hdopen.ui.models.AdState
 import se.gorymoon.hdopen.ui.models.DoorState
+import se.gorymoon.hdopen.ui.models.NowPlayingState
+import se.gorymoon.hdopen.ui.models.PresenceState
+import se.gorymoon.hdopen.utils.asDoorData
+import se.gorymoon.hdopen.utils.asNowPlayingData
+import se.gorymoon.hdopen.utils.asPresenceData
 import se.gorymoon.hdopen.utils.launchTask
 
 private const val TAG = "Home View Model"
@@ -18,9 +24,11 @@ fun refreshDoorState(): Job{
     if(!DoorState.isLoading)
         DoorState.value = DoorData(DoorState.status, isLoading = true)
     return launchTask {
-        val data = getDoorData()
-        DoorState.value = data
-        Log.d(TAG, "Set door state to " + data.status.name)
+        val data = getChassitData()
+        NowPlayingState.value = data.media.asNowPlayingData()
+        PresenceState.value = data.presence.asPresenceData()
+        DoorState.value = data.asDoorData()
+        Log.d(TAG, "Set door state to " + DoorState.value.status.name)
     }
 }
 

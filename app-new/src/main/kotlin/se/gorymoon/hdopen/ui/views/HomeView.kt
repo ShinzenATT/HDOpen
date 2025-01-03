@@ -64,7 +64,7 @@ fun HomeView(nav: NavController, setSystemColor: SystemColorSetter) {
             }
         }
     ) {
-        DoorDisplay(it, state)
+        DoorDisplay(it, state, settings)
     }
 }
 

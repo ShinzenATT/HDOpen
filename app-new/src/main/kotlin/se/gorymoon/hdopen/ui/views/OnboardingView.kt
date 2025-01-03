@@ -10,10 +10,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -59,7 +62,7 @@ fun OnboardingView(nav: NavController, screenWidth: Int, setSystemColor: SystemC
     Scaffold(
         containerColor = theme().surface,
         contentColor = theme().onSurface,
-        bottomBar = { BottomAppBar {
+        bottomBar = { BottomAppBar(containerColor = theme().surfaceColorAtElevation(BottomAppBarDefaults.ContainerElevation + 10.dp)) {
             Row {
                 IconButton(
                     enabled = page.canScrollBackward,
@@ -70,11 +73,11 @@ fun OnboardingView(nav: NavController, screenWidth: Int, setSystemColor: SystemC
                   },
                     modifier = Modifier.align(Alignment.CenterVertically)
                 ){
-                    Icon(Icons.Default.ArrowBack, contentDescription = "Go back")
+                    Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Go back")
                 }
                 LinearProgressIndicator(
-                    progress = (page.currentPage + page.currentPageOffsetFraction) / (page.pageCount - 1f),
-                    modifier = Modifier.align(Alignment.CenterVertically).weight(1f)
+                progress = { (page.currentPage + page.currentPageOffsetFraction) / (page.pageCount - 1f) },
+                modifier = Modifier.align(Alignment.CenterVertically).weight(1f),
                 )
                 FloatingActionButton(
                     modifier = Modifier.padding(start = 12.dp, end = 6.dp),
@@ -92,7 +95,7 @@ fun OnboardingView(nav: NavController, screenWidth: Int, setSystemColor: SystemC
                     if(!page.canScrollForward){
                         Icon(Icons.Default.Check, contentDescription = "Finish")
                     } else {
-                        Icon(Icons.Default.ArrowForward, contentDescription = "Next")
+                        Icon(Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "Next")
                     }
                 }
             }

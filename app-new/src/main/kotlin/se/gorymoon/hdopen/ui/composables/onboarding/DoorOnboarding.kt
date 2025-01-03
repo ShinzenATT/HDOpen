@@ -42,26 +42,19 @@ fun DoorOnboarding() {
             Modifier.fillMaxWidth()
                 .padding(vertical = 5.dp)
                 .clip(RoundedCornerShape(10.dp)),
-            tonalElevation = BottomAppBarDefaults.ContainerElevation
+            tonalElevation = BottomAppBarDefaults.ContainerElevation + 5.dp
         ) {
             Column {
-                Text(
-                    "Data that requires password",
-                    Modifier.fillMaxWidth().padding(20.dp),
-                    fontSize = 4.em,
-                    fontWeight = FontWeight.Medium
-                )
 
                 ListItem(
                     modifier = Modifier.fillMaxWidth()
-                        .clickable(settings.hasApiKey) {
-                            settings = settings.modifyCopy(showMusic = !settings.showMusic)
+                        .clickable {
+                            settings = settings.copy(showMusic = !settings.showMusic)
                        },
                     headlineContent = { Text("Show Now Playing") },
                     trailingContent = { Switch(
-                        enabled = settings.hasApiKey,
                         checked = settings.showMusic,
-                        onCheckedChange = {value -> settings = settings.modifyCopy(showMusic = value) }
+                        onCheckedChange = {value -> settings = settings.copy(showMusic = value) }
                     ) }
                 )
 
@@ -69,61 +62,33 @@ fun DoorOnboarding() {
 
                 ListItem(
                     modifier = Modifier.fillMaxWidth()
-                        .clickable(settings.hasApiKey) {
-                            settings = settings.modifyCopy(showVisitors = !settings.showVisitors)
+                        .clickable {
+                            settings = settings.copy(showVisitors = !settings.showVisitors)
                         },
                     headlineContent = { Text("Show amount of Visitors") },
                     trailingContent = { Switch(
-                        enabled = settings.hasApiKey,
                         checked = settings.showVisitors,
-                        onCheckedChange = {value -> settings = settings.modifyCopy(showVisitors = value) }
+                        onCheckedChange = {value -> settings = settings.copy(showVisitors = value) }
                     ) }
                 )
 
                 HorizontalDivider(Modifier.fillMaxWidth().padding(vertical = 5.dp))
 
-                if (!settings.hasApiKey) {
-                    TextField(
-                        typedPassword,
-                        { value -> typedPassword = value },
-                        modifier = Modifier.fillMaxWidth().padding(horizontal = 15.dp, vertical = 7.dp),
-                        label = { Text("Enter Password") },
-                        supportingText = { Text("Hint: Dubbel Säkerhet") },
-                        placeholder = { Text("Enter password and press enter to unlock settings") },
-                        singleLine = true,
-                        keyboardActions = KeyboardActions {
-                            settings = settings.modifyCopy(apiToken = typedPassword)
-                        },
-                        keyboardOptions = KeyboardOptions(
-                            autoCorrect = false,
-                            capitalization = KeyboardCapitalization.None,
-                            keyboardType = KeyboardType.Password,
-                            imeAction = ImeAction.Send
-                        )
-                    )
-                } else {
-                    Text(
-                        "The API token has been saved!",
-                        modifier = Modifier.fillMaxWidth().padding(vertical = 20.dp),
-                        textAlign = TextAlign.Center
-                    )
-                }
+                ListItem(
+                    modifier = Modifier.fillMaxWidth()
+                        .padding(top = 5.dp)
+                        .clip(RoundedCornerShape(10.dp))
+                        .clickable { settings = settings.copy(adsActive = !settings.adsActive) },
+                    headlineContent = { Text("Show \"Ads\"") },
+                    tonalElevation = BottomAppBarDefaults.ContainerElevation,
+                    shadowElevation = 5.dp,
+                    supportingContent ={ Text("Shows the next event and some info from H-sektionens Dumheter", textAlign = TextAlign.Justify) },
+                    trailingContent = { Switch(
+                        checked = settings.adsActive,
+                        onCheckedChange = {value -> settings = settings.copy(adsActive = value) }
+                    ) }
+                )
             }
         }
-
-        ListItem(
-            modifier = Modifier.fillMaxWidth()
-                .padding(top = 5.dp)
-                .clip(RoundedCornerShape(10.dp))
-                .clickable { settings = settings.modifyCopy(adsActive = !settings.adsActive) },
-            headlineContent = { Text("Show \"Ads\"") },
-            tonalElevation = BottomAppBarDefaults.ContainerElevation,
-            shadowElevation = 5.dp,
-            supportingContent ={ Text("Shows the next event and some info from H-sektionens Dumheter", textAlign = TextAlign.Justify) },
-            trailingContent = { Switch(
-                checked = settings.adsActive,
-                onCheckedChange = {value -> settings = settings.modifyCopy(adsActive = value) }
-            ) }
-        )
     }
 }

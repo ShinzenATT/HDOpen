@@ -60,7 +60,7 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
         Column(modifier = Modifier.padding(it).verticalScroll(scrollState)) {
             ListItem(
                 modifier = Modifier.clickable(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                    state = state.modifyCopy(!state.useDeviceTheme)
+                    state = state.copy(!state.useDeviceTheme)
                 },
                 headlineContent = { Text("Use device theme") },
                 supportingContent = {
@@ -74,7 +74,7 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
                     Switch(
                         enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
                         checked = state.useDeviceTheme,
-                        onCheckedChange = { value -> state = state.modifyCopy(value) }
+                        onCheckedChange = { value -> state = state.copy(value) }
                     )
                 }
             )
@@ -82,12 +82,12 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
             HorizontalDivider(Modifier.padding(vertical = 10.dp))
 
             ListItem(
-                modifier = Modifier.clickable { state = state.modifyCopy(adsActive = !state.adsActive) },
+                modifier = Modifier.clickable { state = state.copy(adsActive = !state.adsActive) },
                 headlineContent = { Text("Show \"Ads\"") },
                 trailingContent = {
                     Switch(
                         checked = state.adsActive,
-                        onCheckedChange = { value -> state = state.modifyCopy(adsActive = value) }
+                        onCheckedChange = { value -> state = state.copy(adsActive = value) }
                     )
                 }
             )
@@ -95,12 +95,12 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
             HorizontalDivider(Modifier.padding(vertical = 10.dp))
 
             ListItem(
-                modifier = Modifier.clickable { state = state.modifyCopy(showMusic = !state.showMusic) },
+                modifier = Modifier.clickable { state = state.copy(showMusic = !state.showMusic) },
                 headlineContent = { Text("Show Now Playing") },
                 trailingContent = {
                     Switch(
                         checked = state.showMusic,
-                        onCheckedChange = { value -> state = state.modifyCopy(showMusic = value) }
+                        onCheckedChange = { value -> state = state.copy(showMusic = value) }
                     )
                 }
             )
@@ -108,12 +108,12 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
             HorizontalDivider(Modifier.padding(vertical = 10.dp))
 
             ListItem(
-                modifier = Modifier.clickable { state = state.modifyCopy(showVisitors = !state.showVisitors) },
+                modifier = Modifier.clickable { state = state.copy(showVisitors = !state.showVisitors) },
                 headlineContent = { Text("Show Amount of Visitors") },
                 trailingContent = {
                     Switch(
                         checked = state.showVisitors,
-                        onCheckedChange = { value -> state = state.modifyCopy(showVisitors = value) }
+                        onCheckedChange = { value -> state = state.copy(showVisitors = value) }
                     )
                 }
             )

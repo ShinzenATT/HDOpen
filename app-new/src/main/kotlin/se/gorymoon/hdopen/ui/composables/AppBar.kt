@@ -43,7 +43,7 @@ fun AppBar(containerColor: Color, textColor: Color, nav: NavController, ){
                 )
             }
 
-            IconButton(
+            /*IconButton(
                 onClick = { /* TODO open events*/}
             ){
                 BadgedBox(
@@ -54,7 +54,7 @@ fun AppBar(containerColor: Color, textColor: Color, nav: NavController, ){
                         contentDescription = "HD Events"
                     )
                 }
-            }
+            }*/
 
             IconButton(
                 onClick = { nav.navigateSettings() }

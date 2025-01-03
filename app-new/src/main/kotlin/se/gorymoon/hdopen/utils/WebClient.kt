@@ -6,6 +6,7 @@ import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.request.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.coroutines.*
+import se.gorymoon.hdopen.BuildConfig
 
 object WebClient {
     private val client = createClient()
@@ -37,6 +38,6 @@ object WebClient {
 }
 
 enum class KnownApi (val host: String){
-    HD("https://hd.chalmers.se/api/"),
-    GORYMOON("https://gorymoon.se/hdopen/api/")
+    HD(BuildConfig.HD_API_URL),
+    GORYMOON(BuildConfig.GORYMOON_API_URL)
 }

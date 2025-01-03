@@ -1,6 +1,7 @@
 package se.gorymoon.hdopen.ui.viewmodels
 
 import android.content.res.Configuration
+import android.os.Build
 import android.view.View
 import android.view.Window
 import androidx.compose.runtime.Composable
@@ -14,8 +15,10 @@ typealias SystemColorSetter = @Composable (Color, Color?) -> Unit
 fun createSystemColorSetter(window: Window, view: View): SystemColorSetter {
     val insetsController = WindowCompat.getInsetsController(window, view)
     return {statusColor, navColor ->
-        window.statusBarColor = statusColor.toArgb()
-        window.navigationBarColor = navColor?.toArgb() ?: statusColor.toArgb()
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+            window.statusBarColor = statusColor.toArgb()
+            window.navigationBarColor = navColor?.toArgb() ?: statusColor.toArgb()
+        }
         val uiMode = window.context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         if(statusColor == theme().surface || statusColor == theme().background){
             insetsController.isAppearanceLightStatusBars = uiMode != Configuration.UI_MODE_NIGHT_YES

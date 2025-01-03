@@ -47,6 +47,7 @@ fun ThemeOnboarding(){
             modifier = Modifier.fillMaxWidth().padding(top = 20.dp, bottom = 5.dp),
             fontWeight = FontWeight.Medium
         )
+        DoorColorExample(BUSY, exampleModifier)
         DoorColorExample(OPEN, exampleModifier)
         DoorColorExample(CLOSED, exampleModifier)
         DoorColorExample(UNKNOWN, exampleModifier)
@@ -56,17 +57,15 @@ fun ThemeOnboarding(){
                 val intent = Intent(Settings.ACTION_SETTINGS)
                 context.startActivity(intent)
             },
-            colors = ButtonDefaults.outlinedButtonColors(
-                containerColor = theme().surfaceColorAtElevation(BottomAppBarDefaults.ContainerElevation)
-            ),
+            colors = ButtonDefaults.outlinedButtonColors(),
             modifier = Modifier.fillMaxWidth().padding(vertical = 5.dp)
             ) { Text("Open device settings") }
         ListItem(
             modifier = Modifier.fillMaxWidth()
                 .clip(RoundedCornerShape(10.dp))
-                .clickable(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,) { state = state.modifyCopy(!state.useDeviceTheme) },
+                .clickable(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,) { state = state.copy(!state.useDeviceTheme) },
             headlineContent = { Text("Use device theme") },
-            tonalElevation = BottomAppBarDefaults.ContainerElevation,
+            tonalElevation = BottomAppBarDefaults.ContainerElevation + 5.dp,
             shadowElevation = 5.dp,
             supportingContent = if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {{
                 Text("Your device is running a version below Android 12")
@@ -74,7 +73,7 @@ fun ThemeOnboarding(){
             trailingContent = { Switch(
                 enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
                 checked = state.useDeviceTheme,
-                onCheckedChange = {value -> state = state.modifyCopy(value) }
+                onCheckedChange = {value -> state = state.copy(value) }
             ) }
         )
     }

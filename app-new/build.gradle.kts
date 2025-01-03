@@ -1,3 +1,5 @@
+import java.util.Properties
+
 val ktor_version: String by project
 val nav_version: String by project
 
@@ -12,6 +14,8 @@ android {
     namespace = "se.gorymoon.hdopen"
     compileSdk = 35
 
+    buildFeatures.buildConfig = true
+
     defaultConfig {
         applicationId = "se.gorymoon.hdopen.test"
         minSdk = 26
@@ -23,6 +27,14 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+        val environmentFile = project.rootProject.file("environment.properties")
+        val properties = Properties()
+        properties.load(environmentFile.inputStream())
+
+        buildConfigField("String", "HD_API_KEY", properties.getProperty("HD_API_KEY") ?: "")
+        buildConfigField("String", "HD_API_URL", properties.getProperty("HD_API_URL") ?: "https://hd.chalmers.se/api/")
+        buildConfigField("String", "GORYMOON_API_URL", properties.getProperty("GORYMOON_API_URL") ?: "https://gorymoon.se/hdopen/api/")
     }
 
     buildTypes {

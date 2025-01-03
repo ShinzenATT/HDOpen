@@ -13,7 +13,10 @@ enum class DoorStatus(
     val accentedTextColor: @Composable () -> Color
 ) {
     OPEN("Open", theme { it.primaryContainer }, theme { it.onPrimaryContainer }, theme { it.primary }, theme { it.onPrimary }),
+    CRAMPED("Cramped", theme { it.secondaryContainer }, theme { it.onSecondaryContainer }, theme { it.secondary }, theme { it.onSecondary }),
+    BUSY("Busy", theme { it.secondaryContainer }, theme { it.onSecondaryContainer }, theme { it.secondary }, theme { it.onSecondary }),
     CLOSED("Closed", theme { it.tertiaryContainer }, theme { it.onTertiaryContainer }, theme { it.tertiary }, theme { it.onTertiary }),
+    IN_HIDING("Closed with Activity", theme { it.tertiaryContainer }, theme { it.onTertiaryContainer }, theme { it.tertiary }, theme { it.onTertiary }),
     UNKNOWN("Unknown", theme { it.surfaceVariant }, theme { it.onSurfaceVariant }, theme { it.primary }, theme { it.onPrimary })
 }
 
