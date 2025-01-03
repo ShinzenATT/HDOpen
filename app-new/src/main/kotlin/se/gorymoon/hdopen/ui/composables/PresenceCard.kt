@@ -38,7 +38,7 @@ fun PresenceCard(modifier: Modifier = Modifier, state: MutableState<PresenceData
     Card(modifier = modifier.fillMaxWidth().clickable { isExpanded = !isExpanded }, colors = CardDefaults.cardColors(containerColor = containerColor, contentColor = textColor)) {
         Column(Modifier.padding(10.dp)) {
             Text(
-                text = "${sales.totalPeople} purchases in the last hour",
+                text = "${sales.totalPeople} visitors last 60 min",
                 fontSize = 5.em,
                 maxLines = if(isExpanded) Int.MAX_VALUE else 1,
                 overflow = TextOverflow.Ellipsis,

@@ -10,6 +10,8 @@ import androidx.navigation.compose.rememberNavController
 import se.gorymoon.hdopen.navigation.NavigationView
 import se.gorymoon.hdopen.navigation.Route
 import se.gorymoon.hdopen.ui.models.AdState
+import se.gorymoon.hdopen.ui.models.SettingsState
+import se.gorymoon.hdopen.ui.models.SettingsState.awaitSettings
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
 import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
 import se.gorymoon.hdopen.ui.viewmodels.startAdRotation
@@ -19,6 +21,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
+        awaitSettings()
         //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         //window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
 
@@ -26,7 +29,7 @@ class MainActivity : ComponentActivity() {
             Log.d("Main Activity", "Recomposed activity")
             navController = rememberNavController()
             HDOpenTheme {
-                NavigationView(navController, Route.Onboaring)
+                NavigationView(navController, if(SettingsState.value.onboardingCompleted) Route.Door else Route.Onboaring)
             }
         }
     }

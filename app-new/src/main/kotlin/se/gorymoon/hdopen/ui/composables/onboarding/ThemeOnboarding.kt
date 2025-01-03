@@ -63,7 +63,10 @@ fun ThemeOnboarding(){
         ListItem(
             modifier = Modifier.fillMaxWidth()
                 .clip(RoundedCornerShape(10.dp))
-                .clickable(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,) { state = state.copy(!state.useDeviceTheme) },
+                .clickable(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,) {
+                    state = state.copy(!state.useDeviceTheme)
+                    SettingsState.saveSettings()
+                },
             headlineContent = { Text("Use device theme") },
             tonalElevation = BottomAppBarDefaults.ContainerElevation + 5.dp,
             shadowElevation = 5.dp,

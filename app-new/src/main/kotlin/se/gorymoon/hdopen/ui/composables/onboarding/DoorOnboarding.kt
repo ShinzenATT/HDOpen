@@ -50,11 +50,15 @@ fun DoorOnboarding() {
                     modifier = Modifier.fillMaxWidth()
                         .clickable {
                             settings = settings.copy(showMusic = !settings.showMusic)
+                            SettingsState.saveSettings()
                        },
                     headlineContent = { Text("Show Now Playing") },
                     trailingContent = { Switch(
                         checked = settings.showMusic,
-                        onCheckedChange = {value -> settings = settings.copy(showMusic = value) }
+                        onCheckedChange = {value -> {
+                            settings = settings.copy(showMusic = value)
+                            SettingsState.saveSettings()
+                        } }
                     ) }
                 )
 
@@ -64,11 +68,15 @@ fun DoorOnboarding() {
                     modifier = Modifier.fillMaxWidth()
                         .clickable {
                             settings = settings.copy(showVisitors = !settings.showVisitors)
+                            SettingsState.saveSettings()
                         },
                     headlineContent = { Text("Show amount of Visitors") },
                     trailingContent = { Switch(
                         checked = settings.showVisitors,
-                        onCheckedChange = {value -> settings = settings.copy(showVisitors = value) }
+                        onCheckedChange = {value ->
+                            settings = settings.copy(showVisitors = value)
+                            SettingsState.saveSettings()
+                        }
                     ) }
                 )
 
@@ -78,14 +86,20 @@ fun DoorOnboarding() {
                     modifier = Modifier.fillMaxWidth()
                         .padding(top = 5.dp)
                         .clip(RoundedCornerShape(10.dp))
-                        .clickable { settings = settings.copy(adsActive = !settings.adsActive) },
+                        .clickable {
+                            settings = settings.copy(adsActive = !settings.adsActive)
+                            SettingsState.saveSettings()
+                           },
                     headlineContent = { Text("Show \"Ads\"") },
                     tonalElevation = BottomAppBarDefaults.ContainerElevation,
                     shadowElevation = 5.dp,
                     supportingContent ={ Text("Shows the next event and some info from H-sektionens Dumheter", textAlign = TextAlign.Justify) },
                     trailingContent = { Switch(
                         checked = settings.adsActive,
-                        onCheckedChange = {value -> settings = settings.copy(adsActive = value) }
+                        onCheckedChange = {value ->
+                            settings = settings.copy(adsActive = value)
+                            SettingsState.saveSettings()
+                        }
                     ) }
                 )
             }

@@ -61,10 +61,12 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
             ListItem(
                 modifier = Modifier.clickable(Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
                     state = state.copy(!state.useDeviceTheme)
+                    SettingsState.saveSettings()
                 },
                 headlineContent = { Text("Use device theme") },
                 supportingContent = {
                     Row {
+                        DoorColorExample(DoorStatus.BUSY)
                         DoorColorExample(DoorStatus.OPEN)
                         DoorColorExample(DoorStatus.CLOSED)
                         DoorColorExample(DoorStatus.UNKNOWN)
@@ -74,7 +76,10 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
                     Switch(
                         enabled = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S,
                         checked = state.useDeviceTheme,
-                        onCheckedChange = { value -> state = state.copy(value) }
+                        onCheckedChange = { value ->
+                            state = state.copy(value)
+                            SettingsState.saveSettings()
+                        }
                     )
                 }
             )
@@ -82,12 +87,18 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
             HorizontalDivider(Modifier.padding(vertical = 10.dp))
 
             ListItem(
-                modifier = Modifier.clickable { state = state.copy(adsActive = !state.adsActive) },
+                modifier = Modifier.clickable {
+                    state = state.copy(adsActive = !state.adsActive)
+                    SettingsState.saveSettings()
+                },
                 headlineContent = { Text("Show \"Ads\"") },
                 trailingContent = {
                     Switch(
                         checked = state.adsActive,
-                        onCheckedChange = { value -> state = state.copy(adsActive = value) }
+                        onCheckedChange = { value ->
+                            state = state.copy(adsActive = value)
+                            SettingsState.saveSettings()
+                        }
                     )
                 }
             )
@@ -95,12 +106,18 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
             HorizontalDivider(Modifier.padding(vertical = 10.dp))
 
             ListItem(
-                modifier = Modifier.clickable { state = state.copy(showMusic = !state.showMusic) },
+                modifier = Modifier.clickable {
+                    state = state.copy(showMusic = !state.showMusic)
+                    SettingsState.saveSettings()
+                },
                 headlineContent = { Text("Show Now Playing") },
                 trailingContent = {
                     Switch(
                         checked = state.showMusic,
-                        onCheckedChange = { value -> state = state.copy(showMusic = value) }
+                        onCheckedChange = { value ->
+                            state = state.copy(showMusic = value)
+                            SettingsState.saveSettings()
+                        }
                     )
                 }
             )
@@ -108,12 +125,18 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
             HorizontalDivider(Modifier.padding(vertical = 10.dp))
 
             ListItem(
-                modifier = Modifier.clickable { state = state.copy(showVisitors = !state.showVisitors) },
+                modifier = Modifier.clickable {
+                    state = state.copy(showVisitors = !state.showVisitors)
+                    SettingsState.saveSettings()
+                },
                 headlineContent = { Text("Show Amount of Visitors") },
                 trailingContent = {
                     Switch(
                         checked = state.showVisitors,
-                        onCheckedChange = { value -> state = state.copy(showVisitors = value) }
+                        onCheckedChange = { value ->
+                            state = state.copy(showVisitors = value)
+                            SettingsState.saveSettings()
+                        }
                     )
                 }
             )

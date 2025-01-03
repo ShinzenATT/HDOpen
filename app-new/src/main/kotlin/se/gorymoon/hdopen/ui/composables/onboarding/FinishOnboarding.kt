@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.em
 import androidx.navigation.NavController
 import se.gorymoon.hdopen.navigation.Route
 import se.gorymoon.hdopen.navigation.popStackAndNavigate
+import se.gorymoon.hdopen.ui.models.SettingsState
 
 @Composable
 fun FinishOnboarding(nav: NavController){
@@ -43,7 +44,11 @@ fun FinishOnboarding(nav: NavController){
         }
 
         Button(
-            onClick = {nav.popStackAndNavigate(Route.Door)},
+            onClick = {
+                SettingsState.value = SettingsState.value.copy(onboardingCompleted = true)
+                SettingsState.saveSettings()
+                nav.popStackAndNavigate(Route.Door)
+            },
             modifier = Modifier.fillMaxWidth().padding(vertical = 7.dp)
         ){
             Text("Start using the app!")

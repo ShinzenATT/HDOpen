@@ -30,6 +30,7 @@ import kotlinx.coroutines.launch
 import se.gorymoon.hdopen.navigation.Route
 import se.gorymoon.hdopen.navigation.popStackAndNavigate
 import se.gorymoon.hdopen.ui.composables.onboarding.*
+import se.gorymoon.hdopen.ui.models.SettingsState
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
 import se.gorymoon.hdopen.ui.theme.theme
 import se.gorymoon.hdopen.ui.viewmodels.SystemColorSetter
@@ -84,6 +85,8 @@ fun OnboardingView(nav: NavController, screenWidth: Int, setSystemColor: SystemC
                     elevation = FloatingActionButtonDefaults.bottomAppBarFabElevation(),
                     onClick =  {
                         if(!page.canScrollForward){
+                            SettingsState.value = SettingsState.value.copy(onboardingCompleted = true)
+                            SettingsState.saveSettings()
                             nav.popStackAndNavigate(Route.Door)
                         } else {
                             dispatcher.launch {
