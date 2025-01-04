@@ -3,6 +3,8 @@ package se.gorymoon.hdopen.ui.composables
 import android.annotation.SuppressLint
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -14,7 +16,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.em
-import androidx.compose.ui.unit.sp
 import se.gorymoon.hdopen.dto.DoorData
 import se.gorymoon.hdopen.dto.DoorStatus
 import se.gorymoon.hdopen.dto.UserSettings
@@ -28,6 +29,7 @@ import kotlin.time.toDuration
 fun DoorDisplay(padding: PaddingValues, state: DoorData, settings: UserSettings){
     val (status, duration, isLoading) = state
     val displayText = if(isLoading) "Loading..." else status.text
+    val scrollState = rememberScrollState()
 
     // A surface container using the 'background' color from the theme
     Surface(
@@ -35,7 +37,7 @@ fun DoorDisplay(padding: PaddingValues, state: DoorData, settings: UserSettings)
         modifier = Modifier.fillMaxSize().padding(padding).clickable { refreshDoorState() }
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(20.dp),
+            modifier = Modifier.fillMaxSize().padding(20.dp).verticalScroll(scrollState, enabled = true),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
@@ -52,10 +54,20 @@ fun DoorDisplay(padding: PaddingValues, state: DoorData, settings: UserSettings)
             } else if(duration != null){
                 DurationText(duration, 5.em, modifier = Modifier.padding(bottom = 10.dp)) { "$it ago" }
 
-                if(settings.showMusic)
-                    NowPlayingCard(Modifier.padding(15.dp), containerColor = status.accentedContainerColor(), textColor = status.accentedTextColor())
-                if(settings.showVisitors)
-                    PresenceCard(Modifier.padding(15.dp), containerColor = status.accentedContainerColor(), textColor = status.accentedTextColor())
+                if(settings.showMusic) {
+                    NowPlayingCard(
+                        Modifier.padding(15.dp),
+                        containerColor = status.accentedContainerColor().copy(alpha = 0.65f),
+                        textColor = status.accentedTextColor()
+                    )
+                }
+                if(settings.showVisitors) {
+                    PresenceCard(
+                        Modifier.padding(15.dp),
+                        containerColor = status.accentedContainerColor().copy(alpha = 0.65f),
+                        textColor = status.accentedTextColor()
+                    )
+                }
             }
         }
     }

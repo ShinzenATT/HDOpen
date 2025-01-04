@@ -8,12 +8,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
@@ -35,7 +30,13 @@ fun NowPlayingCard(modifier: Modifier = Modifier, state: MutableState<NowPlaying
     Card(modifier = modifier.fillMaxWidth().clickable { isExpanded = !isExpanded }, colors = CardDefaults.cardColors(containerColor = containerColor, contentColor = textColor)) {
         Column(Modifier.padding(10.dp)) {
             if (media.song == null) {
-                Text(text = "Nothing is playing", fontSize = 5.em, fontWeight = FontWeight.Medium, textAlign = TextAlign.Center, modifier = Modifier.fillMaxWidth())
+                Text(
+                    text = "Nothing is playing",
+                    fontSize = 5.em,
+                    fontWeight = FontWeight.Medium,
+                    textAlign = if(isExpanded) TextAlign.Left else TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
             } else {
                 Text(
                     text = "Playing: ${media.song}",
@@ -51,7 +52,7 @@ fun NowPlayingCard(modifier: Modifier = Modifier, state: MutableState<NowPlaying
                 if (!media.artist.isNullOrEmpty()) {
                     Text(text = "Artist: ${media.artist}", fontSize = 4.em, modifier = Modifier.padding(bottom = 5.dp))
                 }
-                DurationText(media.duration, fontSize = 4.em) { "playing for $it" }
+                DurationText(media.duration, fontSize = 4.em) { "Playing for $it" }
             }
         }
     }
