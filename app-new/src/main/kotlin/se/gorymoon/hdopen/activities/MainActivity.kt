@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
@@ -24,7 +25,7 @@ class MainActivity : ComponentActivity() {
         awaitSettings()
         //window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         //window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-
+        enableEdgeToEdge()
         setContent {
             Log.d("Main Activity", "Recomposed activity")
             navController = rememberNavController()

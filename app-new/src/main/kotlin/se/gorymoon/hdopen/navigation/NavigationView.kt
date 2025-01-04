@@ -3,12 +3,10 @@ package se.gorymoon.hdopen.navigation
 import android.os.Build
 import androidx.activity.ComponentActivity
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.platform.LocalView
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import se.gorymoon.hdopen.navigation.Route.*
-import se.gorymoon.hdopen.ui.viewmodels.createSystemColorSetter
 import se.gorymoon.hdopen.ui.views.HomeView
 import se.gorymoon.hdopen.ui.views.OnboardingView
 import se.gorymoon.hdopen.ui.views.SettingsView
@@ -24,11 +22,11 @@ fun ComponentActivity.NavigationView(
 
     composable(Door.name){
         label = Door.label
-        HomeView(controller, createSystemColorSetter(window, LocalView.current))
+        HomeView(controller)
     }
     composable(Settings.name){
         label = Settings.label
-        SettingsView(controller, createSystemColorSetter(window, LocalView.current))
+        SettingsView(controller)
     }
 
     composable(Onboaring.name){
@@ -38,6 +36,6 @@ fun ComponentActivity.NavigationView(
         } else {
             windowManager.defaultDisplay.width
         }
-        OnboardingView(controller, screenWidth, createSystemColorSetter(window, LocalView.current))
+        OnboardingView(controller, screenWidth)
     }
 }

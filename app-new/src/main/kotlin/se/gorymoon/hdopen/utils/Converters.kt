@@ -19,7 +19,7 @@ fun ChassitResponse.asDoorData(): DoorData {
         door.status == true && presence.totalVisitors > 6 -> DoorStatus.CRAMPED.asData(door.durationTime)
         door.status == true && presence.totalVisitors > 4 -> DoorStatus.BUSY.asData(door.durationTime)
         door.status == true -> DoorStatus.OPEN.asData(door.durationTime)
-        door.status == false && (door.durationTime < media.duration || door.durationTime < presence.duration) -> DoorStatus.IN_HIDING.asData(door.durationTime)
+        door.status == false && (door.durationTime > media.duration || door.durationTime > presence.duration) -> DoorStatus.IN_HIDING.asData(door.durationTime)
         door.status == false -> DoorStatus.CLOSED.asData(door.durationTime)
         door.status == null -> DoorStatus.UNKNOWN.asData(door.durationTime)
         else -> throw IllegalStateException("Door data from api contained invalid data")

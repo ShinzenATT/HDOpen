@@ -19,21 +19,14 @@ import se.gorymoon.hdopen.ui.composables.AppBar
 import se.gorymoon.hdopen.ui.composables.DoorDisplay
 import se.gorymoon.hdopen.ui.models.DoorState
 import se.gorymoon.hdopen.ui.models.SettingsState
-import se.gorymoon.hdopen.ui.viewmodels.SystemColorSetter
 import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
 
 @Composable
-fun HomeView(nav: NavController, setSystemColor: SystemColorSetter) {
+fun HomeView(nav: NavController) {
     Log.d("Home View", "Recomposed view")
     val  state by  remember { DoorState }
     val settings by remember { SettingsState }
     val (status, _, isLoading) = state
-
-    setSystemColor(
-        status.accentedContainerColor(),
-        if(settings.adsActive) status.accentedContainerColor()
-        else status.containerColor()
-    )
 
     LaunchedEffect(Unit){
         refreshDoorState().join()
@@ -71,5 +64,5 @@ fun HomeView(nav: NavController, setSystemColor: SystemColorSetter) {
 @Preview(showBackground = true)
 @Composable
 private fun HomePreview() {
-    HomeView(rememberNavController()) { _, _ -> }
+    HomeView(rememberNavController())
 }

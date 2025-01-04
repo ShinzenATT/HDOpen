@@ -12,11 +12,8 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.*
-import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
@@ -33,11 +30,10 @@ import se.gorymoon.hdopen.ui.composables.onboarding.*
 import se.gorymoon.hdopen.ui.models.SettingsState
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
 import se.gorymoon.hdopen.ui.theme.theme
-import se.gorymoon.hdopen.ui.viewmodels.SystemColorSetter
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun OnboardingView(nav: NavController, screenWidth: Int, setSystemColor: SystemColorSetter){
+fun OnboardingView(nav: NavController, screenWidth: Int){
     val page = rememberPagerState{ 5 }
     val dispatcher = rememberCoroutineScope()
 
@@ -57,8 +53,6 @@ fun OnboardingView(nav: NavController, screenWidth: Int, setSystemColor: SystemC
             page.animateScrollToPage(targetPage + 1)
         }
     }
-
-    setSystemColor(theme().surface, theme().surfaceColorAtElevation(BottomAppBarDefaults.ContainerElevation))
 
     Scaffold(
         containerColor = theme().surface,
@@ -128,6 +122,6 @@ fun OnboardingView(nav: NavController, screenWidth: Int, setSystemColor: SystemC
 @Composable
 private fun OnboardingPreview(){
     HDOpenTheme(darkTheme = true) {
-        OnboardingView(rememberNavController(), 0) { _, _ -> }
+        OnboardingView(rememberNavController(), 0)
     }
 }

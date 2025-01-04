@@ -28,15 +28,13 @@ import se.gorymoon.hdopen.ui.composables.DoorColorExample
 import se.gorymoon.hdopen.ui.models.SettingsState
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
 import se.gorymoon.hdopen.ui.theme.theme
-import se.gorymoon.hdopen.ui.viewmodels.SystemColorSetter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
+fun SettingsView(nav: NavController){
     var state by remember { SettingsState }
     val scrollState = rememberScrollState()
     val context = LocalContext.current
-    setSystemColor(theme().surface, null)
 
     Scaffold(
         containerColor = theme().surface,
@@ -162,6 +160,6 @@ fun SettingsView(nav: NavController, setSystemColor: SystemColorSetter){
 @Preview
 private fun SettingsPreview(){
     HDOpenTheme {
-        SettingsView(rememberNavController()) {_,_ -> }
+        SettingsView(rememberNavController())
     }
 }
