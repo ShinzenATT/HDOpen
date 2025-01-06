@@ -1,4 +1,4 @@
-import java.util.Properties
+import java.util.*
 
 val ktor_version: String by project
 val nav_version: String by project
@@ -78,6 +78,8 @@ dependencies {
     implementation("androidx.navigation:navigation-ui-ktx:$nav_version")
     implementation("androidx.navigation:navigation-dynamic-features-fragment:$nav_version")
     implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("androidx.glance:glance-appwidget:1.1.1")
+    implementation("androidx.glance:glance-material3:1.1.1")
 
     implementation("com.google.accompanist:accompanist-permissions:0.35.0-alpha")
 

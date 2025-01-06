@@ -1,6 +1,7 @@
 package se.gorymoon.hdopen.ui.theme
 
 import android.app.Activity
+import android.content.Context
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.*
@@ -97,23 +98,24 @@ fun theme() = MaterialTheme.colorScheme
 @Composable
 fun HDOpenTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
+    isGlanceWidget: Boolean = false,
+    context: Context = LocalContext.current,
     content: @Composable () -> Unit
 ) {
     val state by remember { SettingsState }
     val colorScheme = when {
         state.useDeviceTheme && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
-
         darkTheme -> DarkColors
         else -> LightColors
     }
-    val view = LocalView.current
-    if (!view.isInEditMode) {
+
+    if (!isGlanceWidget && !LocalView.current.isInEditMode) {
+        val view = LocalView.current
         SideEffect {
             val window = (view.context as Activity).window
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                 window.isStatusBarContrastEnforced = true
                 window.isNavigationBarContrastEnforced = true
             }
