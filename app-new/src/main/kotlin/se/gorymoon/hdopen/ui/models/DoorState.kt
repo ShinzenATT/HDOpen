@@ -1,12 +1,10 @@
 package se.gorymoon.hdopen.ui.models
 
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import se.gorymoon.hdopen.dto.DoorData
 import se.gorymoon.hdopen.dto.DoorStatus
 import se.gorymoon.hdopen.utils.asData
-import kotlin.time.Duration
 import kotlin.time.DurationUnit
 import kotlin.time.toDuration
 
@@ -14,6 +12,7 @@ object DoorState: MutableState<DoorData> by mutableStateOf(DoorStatus.UNKNOWN.as
     val status get() = value.status
     val duration get() = value.duration
     val isLoading get() = value.isLoading
+    val timestamp get() = value.timestamp
 
     fun cycleState(){
         val entries = DoorStatus.entries

@@ -26,7 +26,7 @@ fun HomeView(nav: NavController) {
     Log.d("Home View", "Recomposed view")
     val  state by  remember { DoorState }
     val settings by remember { SettingsState }
-    val (status, _, isLoading) = state
+    val (status, _, _, isLoading) = state
 
     LaunchedEffect(Unit){
         refreshDoorState().join()

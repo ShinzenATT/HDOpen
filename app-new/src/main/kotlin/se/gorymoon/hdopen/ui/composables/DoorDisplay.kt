@@ -27,7 +27,7 @@ import kotlin.time.toDuration
 
 @Composable
 fun DoorDisplay(padding: PaddingValues, state: DoorData, settings: UserSettings){
-    val (status, duration, isLoading) = state
+    val (status, duration, _, isLoading) = state
     val displayText = if(isLoading) "Loading..." else status.text
     val scrollState = rememberScrollState()
 

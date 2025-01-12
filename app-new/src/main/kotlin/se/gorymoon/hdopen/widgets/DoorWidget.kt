@@ -3,9 +3,11 @@ package se.gorymoon.hdopen.widgets
 import android.app.UiModeManager
 import android.appwidget.AppWidgetManager
 import android.content.Context
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.datastore.preferences.core.booleanPreferencesKey
@@ -26,17 +28,29 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextAlign
 import androidx.glance.text.TextStyle
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
+import kotlinx.datetime.TimeZone
+import kotlinx.datetime.toLocalDateTime
 import se.gorymoon.hdopen.ui.models.DoorState
 import se.gorymoon.hdopen.ui.theme.HDOpenTheme
 import se.gorymoon.hdopen.ui.viewmodels.refreshDoorState
 import se.gorymoon.hdopen.utils.asProvider
-import se.gorymoon.hdopen.utils.minSize
 
 class DoorWidget: GlanceAppWidget() {
     lateinit var widgetManager: AppWidgetManager
 
     override val sizeMode: SizeMode
-        get() = SizeMode.Exact
+        get() = SizeMode.Responsive(
+            setOf(ICON, WIDE, LARGE)
+        )
+
+    companion object {
+        val DARK_THEME_KEY = booleanPreferencesKey("is_dark_theme")
+        private val ICON = DpSize(50.dp, 50.dp)
+        private val WIDE = DpSize(100.dp, 50.dp)
+        private val LARGE = DpSize(150.dp, 150.dp)
+    }
 
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         provideContent {
@@ -47,11 +61,14 @@ class DoorWidget: GlanceAppWidget() {
     @Composable
     fun render(context: Context){
         val door = remember { DoorState }
-        val size = LocalSize.current
         val uiService = context.getSystemService(Context.UI_MODE_SERVICE) as UiModeManager
 
-        LaunchedEffect(Unit) {
-            refreshDoorState()
+        LaunchedEffect(DoorState) {
+            while (isActive) {
+                refreshDoorState().join()
+                Log.d("DoorWidget", "door state refreshed")
+                delay(3600000)
+            }
         }
         HDOpenTheme(uiService.nightMode == UiModeManager.MODE_NIGHT_YES, true, context) {
             Column(
@@ -69,25 +86,30 @@ class DoorWidget: GlanceAppWidget() {
                             color = door.status.textColor().asProvider(),
                             fontWeight = FontWeight.Bold,
                             textAlign = TextAlign.Center,
-                            fontSize = (size.minSize.value / 4).sp
+                            fontSize = when(LocalSize.current){
+                                ICON -> 15.sp
+                                WIDE -> 40.sp
+                                LARGE -> 60.sp
+                                else -> 80.sp
+                            }
                         ),
                     )
-                    if (size.height.value > 100) {
+                    if (door.timestamp != null && LocalSize.current == LARGE) {
+                        val time = door.timestamp!!.toLocalDateTime(TimeZone.currentSystemDefault()).time
                         Text(
-                            "~${door.duration}",
+                            "$time",
                             style = TextStyle(
                                 color = door.status.textColor().asProvider(),
                                 fontWeight = FontWeight.Medium,
-                                fontSize = (size.minSize.value / 10).sp
+                                fontSize = when(LocalSize.current) {
+                                    LARGE -> 30.sp
+                                    else -> 30.sp
+                                }
                             )
                         )
                     }
                 }
             }
         }
-    }
-
-    companion object {
-        val DARK_THEME_KEY = booleanPreferencesKey("is_dark_theme")
     }
 }
