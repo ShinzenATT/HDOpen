@@ -16,7 +16,7 @@ jobs:
     - name: Load environment into file
       env: 
         ENVIRONMENT_PROPS: ${{ secrets.ENVIRONMENT_PROPS }}
-      run: echo $ENVIRONMENT_PROPS > environment.properties
+      run: echo "$ENVIRONMENT_PROPS" > environment.properties
     - name: set up JDK 23
       uses: actions/setup-java@v3
       with:
