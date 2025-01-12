@@ -18,6 +18,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -33,12 +34,14 @@ import se.gorymoon.hdopen.ui.theme.theme
 @Composable
 fun SettingsView(nav: NavController){
     var state by remember { SettingsState }
+    val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
     val scrollState = rememberScrollState()
     val context = LocalContext.current
 
     Scaffold(
         containerColor = theme().surface,
         contentColor = theme().onSurface,
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             LargeTopAppBar(
                 title = { Text("Settings") },
@@ -51,7 +54,8 @@ fun SettingsView(nav: NavController){
                     containerColor = theme().surface,
                     titleContentColor = theme().onSurface,
                     navigationIconContentColor = theme().onSurface
-                )
+                ),
+                scrollBehavior = scrollBehavior
             )
         }
     ) {

@@ -34,10 +34,10 @@ fun DoorDisplay(padding: PaddingValues, state: DoorData, settings: UserSettings)
     // A surface container using the 'background' color from the theme
     Surface(
         color = status.containerColor(),
-        modifier = Modifier.fillMaxSize().padding(padding).clickable { refreshDoorState() }
+        modifier = Modifier.fillMaxSize().padding(padding).clickable { refreshDoorState() }.verticalScroll(scrollState),
     ) {
         Column(
-            modifier = Modifier.fillMaxSize().padding(20.dp).verticalScroll(scrollState, enabled = true),
+            modifier = Modifier.fillMaxSize().padding(20.dp),
             verticalArrangement = Arrangement.Center,
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
