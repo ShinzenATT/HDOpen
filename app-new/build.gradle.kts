@@ -17,7 +17,7 @@ android {
     buildFeatures.buildConfig = true
 
     defaultConfig {
-        applicationId = "se.gorymoon.hdopen.test"
+        applicationId = "se.gorymoon.hdopen"
         minSdk = 26
         targetSdk = 35
         versionCode = 11
