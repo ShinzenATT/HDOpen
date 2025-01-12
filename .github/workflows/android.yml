@@ -33,10 +33,10 @@ jobs:
       uses: actions/upload-artifact@v4.6.0
       with: 
         name: hd-open-debug.apk
-        path: app-new/build/output/debug/app-new-debug.apk
+        path: app-new/build/outputs/apk/debug/app-new-debug.apk
     - name: Upload release APK
       uses: actions/upload-artifact@v4.6.0
       with: 
         name: hd-open-release-unsigned.apk
-        path: app-new/build/output/release/app-new-release-unsigned.apk
+        path: app-new/build/outputs/apk/release/app-new-release-unsigned.apk
     
